@@ -1,0 +1,423 @@
+\documentclass[11pt]{amsart}
+\usepackage{latexsym,amsfonts,amssymb,graphicx,amsmath,color}
+\usepackage{epstopdf}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{cancel}
+%\usepackage{enumitem}
+\textwidth 16cm
+\textheight 22cm
+\oddsidemargin 0.5cm
+\evensidemargin 0.5cm
+\numberwithin{equation}{section}
+\addtolength{\voffset}{-2truecm}
+
+
+%%%%% DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\n}[1]{\boldsymbol{#1}}
+\newcommand{\proofend}{\hfill$\square$}
+
+\newcommand{\g}{\mathsf{g}}
+\newcommand{\dive}{\text{div } }
+\newcommand{\Th}{\mathcal{T}_h}
+
+
+\newtheorem{theorem}{\bf Theorem}
+\newtheorem{lemma}{\sc Lemma}
+\newtheorem{proposition}{\sc Proposition}
+\newtheorem{corollary}{\sc Corollary}
+\newtheorem{Def}{Definition}[section]
+\newtheorem{hyp}{\bf Hypothesis}
+\newtheorem{rem}{\bf Remark}
+%%%%% END DEFINITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{center}
+    {\bf Midterm: APMA 2550, Oct. 31, 12pm \\
+        The exam is open book and notes. However, you cannot talk to anyone about the exam except me. 
+        Use Latex to write your solutions.  Turn in paper copy in my dropbox. 
+    }
+\end{center}
+
+\section{Problem \#1}
+
+Consider the following equation
+
+\begin{align*}
+    u_t(x,t)= & (-1)^{m+1} \partial_x^{(2 m)} u(x,t) \\
+    u(x,0)=   & f(x)                                 \\
+\end{align*}
+
+where $f$ is  $2 \pi$ periodic.  Here, $m$ is  a positive integer.
+
+Consider the following method for this problem
+\begin{align*}
+    v_j^{n+1} = & v_j^n + k (-1)^{m+1} (D_+ D_-)^m v_j^n, \\
+    v_j^0=      & f_j.  
+\end{align*}
+
+
+\begin{enumerate}[a)]
+    \item Calculate $\hat{Q}(\omega h)$.  \\
+          
+          {\color{blue}
+          
+          First, let us find the form of $(D_+ D_-)^m$:
+          
+          \begin{align*}
+              (D_+ D_-)^m & = \left(\frac{E - 2E^0 + E^{-1}}{h^2}\right)^m                         \\
+                          & = \frac{(E - 2E^0 + E^{-1})^m}{h^{2m}}                                 \\
+                          & = \frac{((E - E^0)(E^0 - E^{-1}))^m}{h^{2m}}                           \\
+                          & = \frac{((E - E^0)(E - E^0)E^{-1})^m}{h^{2m}}                          \\
+                          & = \frac{(E - E^0)^{2m}E^{-m}}{h^{2m}}                                  \\
+                          & = \frac{E^{-m}}{h^{2m}} \sum_{k=0}^{2m} \binom{2m}{k} E^k (E^0)^{2m-k} \\
+                          & = \frac{E^{-m}}{h^{2m}} \sum_{k=0}^{2m} \binom{2m}{k} E^k              \\
+              (D_+ D_-)^m & = \frac{1}{h^{2m}} \sum_{k=0}^{2m} \binom{2m}{k} E^{k-m}               \\
+          \end{align*}
+          
+          Consider $v_j^n = \frac{1}{\sqrt{2\pi}} e^{i\omega x_j} \hat v^n(\omega)$
+          
+          \begin{align}
+              v_j^{n+1}                                                  & = v_j^n + k (-1)^{m+1} (D_+ D_-)^m v_j^n                                                                                                                                                 \\
+              \frac{1}{\sqrt{2\pi}} e^{i\omega x_j} \hat v^{n+1}(\omega) & = \frac{1}{\sqrt{2\pi}} e^{i\omega x_j} \hat v^n(\omega) + k (-1)^{m+1} (D_+ D_-)^m \frac{1}{\sqrt{2\pi}} e^{i\omega x_j} \hat v^n(\omega)                                               \\
+              e^{i\omega x_j} \hat v^{n+1}(\omega)                       & = e^{i\omega x_j} \hat v^n(\omega) + k (-1)^{m+1} (D_+ D_-)^m e^{i\omega x_j} \hat v^n(\omega)                                                                                           \\
+              e^{i\omega x_j} \hat v^{n+1}(\omega)                       & = e^{i\omega x_j} \hat v^n(\omega) + k (-1)^{m+1} \frac{1}{h^{2m}} \sum_{k=0}^{2m} \binom{2m}{k} E^{k-m} e^{i\omega x_j} \hat v^n(\omega)                                                \\                                           
+              e^{i\omega x_j} \hat v^{n+1}(\omega)                       & = e^{i\omega x_j} \hat v^n(\omega) + k (-1)^{m+1} \frac{1}{h^{2m}} \sum_{k=0}^{2m} \binom{2m}{k} e^{i\omega (x_j + (k-m)h)} \hat v^n(\omega)                                             \\                                           
+              \hat v^{n+1}(\omega)                                       & = \hat v^n(\omega) + k (-1)^{m+1} \frac{1}{h^{2m}} \sum_{k=0}^{2m} \binom{2m}{k} e^{(k-m)\omega hi} \hat v^n(\omega)                                                                     \\                                       
+              \hat v^{n+1}(\omega)                                       & = \hat v(\omega)\left(1 + k (-1)^{m+1} \frac{1}{h^{2m}} \sum_{k=0}^{2m} \binom{2m}{k} e^{(k-m)\omega hi}\right)                                                                         
+          \end{align}
+          
+          Thus
+          
+          \begin{equation}
+              \hat Q(\omega h) = 1 + k (-1)^{m+1} \frac{1}{h^{2m}} \sum_{k=0}^{2m} \binom{2m}{k} e^{(k-m)\omega hi}
+          \end{equation}
+          }
+          
+    \item Is there a condition on $k, h$ so that $|\hat{Q}| \le 1$? \\
+          
+          {\color{blue}
+          \begin{align}
+              |\hat Q| & = \left| 1 + k (-1)^{m+1} \frac{1}{h^{2m}} \sum_{k=0}^{2m} \binom{2m}{k} e^{(k-m)\omega hi} \right|            \\ 
+                       & = \left| 1 + k (-1)^{m+1} \frac{e^{-m\omega hi}}{h^{2m}} \sum_{k=0}^{2m} \binom{2m}{k} e^{k\omega hi} \right|  \\ 
+                       & = \left| 1 + k (-1)^{m+1} \frac{e^{-m\omega hi}}{h^{2m}} (e^{\omega hi} + 1)^{2m} \right|                      \\ 
+                       & = \left| 1 + k (-1)^{m+1} \frac{1}{h^{2m}} (1 + e^{-\omega hi})^m (e^{\omega hi} + 1)^m \right|                \\ 
+                       & = \left| 1 + k (-1)^{m+1} \frac{1}{h^{2m}} (e^{-\omega hi} + 2 + e^{\omega hi})^m \right|                      \\ 
+                       & = \left| 1 + k (-1)^{m+1} \frac{1}{h^{2m}} (2 + 2\cos(\omega h))^m \right|                                     \\ 
+                       & = \left| 1 + k (-1)^{m+1} \frac{2^m}{h^{2m}} (2\cos^2(\omega h/2))^m \right|                                   \\ 
+                       & = \left| 1 + k (-1)^{m+1} \left( \frac{2 \cos(\omega h/2)}{h}\right)^{2m} \right|                             
+          \end{align}
+          
+          If $m$ is odd, then
+          
+          \begin{align}
+              |\hat Q| & = \left| 1 + k \left( \frac{2 \cos(\omega h/2)}{h}\right)^{2m} \right|  
+          \end{align}
+          
+          and thus $|\hat Q| > 1$ for any $k, h$. In the case where $m$ is even, then
+          
+          \begin{align}
+              |\hat Q| & = \left| 1 - k \left( \frac{2 \cos(\omega h/2)}{h}\right)^{2m} \right| 
+          \end{align}
+          
+          Thus $|\hat Q| \le 1$ if
+          
+          \begin{align}
+              k \left( \frac{2 \cos(\omega h/2)}{h}\right)^{2m} \le 2 \\
+              k \frac{2^{2m} \cos^{2m}(\omega h/2)}{h^{2m}} \le 2     \\
+              k \frac{2^{2m}}{h^{2m}} \le 2                           \\
+              k \cdot 2^{2m-1} \le h^{2m}
+          \end{align}
+          }
+          
+\end{enumerate}
+
+\newpage
+\section{Problem \#2}
+
+Consider the following problem
+\begin{alignat*}{1}
+    u_t(x,t)= & \partial_x^{3} u(x,t) \\
+    u(x,0)=   & f(x)                  \\
+\end{alignat*}
+where $f$ is  $2 \pi$ periodic.
+
+
+Consider the following method for this problem
+\begin{alignat*}{1}
+    v_j^{n+1} = & v_j^n + k  D_- D_+ D_- v_j^n, \\
+    v_j^0=      & f_j.  
+\end{alignat*}
+
+\begin{enumerate}[a)]
+    \item Calculate $\hat{Q}$.  \\
+          
+          {\color{blue}
+          First, let us find $D_- D_+ D_-$
+          
+          \begin{align}
+              D_- D_+ D_+ & = \frac{E^0 - E^{-1}}{h} \cdot \frac{E^1 - E^0}{h} \cdot \frac{E^0 - E^{-1}}{h} \\
+                          & = \frac{(E^{-1} - 2E^0 + E)(E^0 - E^{-1})}{h^3}                                 \\
+                          & = \frac{E^{-1} - 2E^0 + E - E^{-2} + 2E^{-1} - E^0}{h^3}                        \\
+                          & = \frac{E - 3E^0 + 3E^{-1} - E^{-2}}{h^3}
+          \end{align}
+          
+          Now solve with $v^n_j = \frac{1}{\sqrt{2\pi}} e^{i\omega x_j} \hat v^n(\omega)$
+          
+          \begin{align}
+              v_j^{n+1}                                                  & = v_j^n + kD_- D_+ D_- v_j^n                                                                                                                                     \\
+              \frac{1}{\sqrt{2\pi}} e^{i\omega x_j} \hat v^{n+1}(\omega) & = \frac{1}{\sqrt{2\pi}} e^{i\omega x_j} \hat v^n(\omega) + kD_- D_+ D_- \frac{1}{\sqrt{2\pi}} e^{i\omega x_j} \hat v^n(\omega)                                   \\
+              e^{i\omega x_j} \hat v^{n+1}(\omega)                       & =  e^{i\omega x_j} \hat v^n(\omega) + kD_- D_+ D_- e^{i\omega x_j} \hat v^n(\omega)                                                                              \\
+                                                                         & =  e^{i\omega x_j} \hat v^n(\omega) + k \frac{E - 3E^0 + 3E^{-1} - E^{-2}}{h^3} e^{i\omega x_j} \hat v^n(\omega)                                                 \\
+                                                                         & =  e^{i\omega x_j} \hat v^n(\omega) + k \frac{e^{i\omega (x_j + h)} - 3e^{i\omega x_j} + 3e^{i\omega (x_j - h)} - e^{i\omega (x_j - 2h)}}{h^3} \hat v^n(\omega)  \\
+              \hat v^{n+1}(\omega)                                       & =  \hat v^n(\omega) + k \frac{e^{i\omega h} - 3 + 3e^{- i\omega h} - e^{-2h i\omega}}{h^3} \hat v^n(\omega)                                                      \\
+              \hat v^{n+1}(\omega)                                       & =  \left(1 + k \frac{e^{i\omega h} - 3 + 3e^{- i\omega h} - e^{-2h i\omega}}{h^3} \right) \hat v^n(\omega)                                                      
+          \end{align}
+          
+          Thus
+          
+          \begin{equation}
+              \hat Q = 1 + k \frac{e^{i\omega h} - 3 + 3e^{- i\omega h} - e^{-2h i\omega}}{h^3}
+          \end{equation}
+          
+          }
+          
+    \item It there a conditon on $k, h$ so that $|\hat{Q}| \le 1$?\\
+          
+          {\color{blue}
+          
+          \begin{align}
+              |\hat Q| & = \left| 1 + k \frac{e^{i\omega h} - 3 + 3e^{- i\omega h} - e^{-2h i\omega}}{h^3} \right|                          \\
+                       & = \left| 1 + k \frac{- 3 + 4\cos(\omega h) - i2\sin(\omega h) - e^{-2h i\omega}}{h^3} \right|                      \\
+                       & =  \left| 1 + k \frac{- 3 + 4\cos(\omega h) - i2\sin(\omega h) - \cos(2 \omega h) + i\sin(2\omega h)}{h^3} \right|
+          \end{align}
+          
+          Let $c = \frac{h^3}{k}$
+          
+          \begin{align}
+              c |\hat Q|    & =  \left| c - 3 + 4\cos(\omega h) - i2\sin(\omega h) - \cos(2 \omega h) + i\sin(2\omega h) \right|                                             \\
+              c^2|\hat Q|^2 & =  \left| c - 3 + 4\cos(\omega h) - \cos(2 \omega h) + i(\sin(2\omega h) - 2\sin(\omega h)) \right|^2                                          \\
+                            & = \left(c - 3 + 4\cos(\omega h) - \cos(2 \omega h)\right)^2 + (\sin(2\omega h) - 2\sin(\omega h))^2                                            \\
+                            & = \left(c - 2 + 4\cos(\omega h) - 2\cos^2(\omega h)\right)^2 + (\sin(2\omega h) - 2\sin(\omega h))^2                                           \\
+                            & = \left(c - 2\right)^2 + 16 \cos^2(\omega h) + 4 \cos^4 (\omega h)                                                                             \\ \nonumber
+                            & \quad + 8 (c-2) \cos(\omega h) - 16 \cos^3(\omega h) - 4 (c- 2) \cos^2 (\omega h)                                                              \\ \nonumber 
+                            & \quad + \sin^2(2\omega h) - 4\sin(2\omega h) \sin(\omega h) + 4 \sin^2(\omega h)                                                               \\
+                            & = \left(c - 2\right)^2 + 16 \cos^2(\omega h) + 4 \cos^4 (\omega h)                                                                             \\ \nonumber
+                            & \quad + 8 (c-2) \cos(\omega h) - 16 \cos^3(\omega h) - 4 (c- 2) \cos^2 (\omega h)                                                              \\ \nonumber 
+                            & \quad + \sin^2(2\omega h) - 8\sin^2(\omega h) \cos(\omega h) + 4 \sin^2(\omega h)                                                              \\                                        
+                            & = \left( c - 2\right)^2 + 16 \cos^2(\omega h) + 4 \cos^4(\omega h)                                                                             \\ \nonumber
+                            & \quad + 8 (c-2) \cos(\omega h) - 16 \cos^3(\omega h) - 4 (c- 2) \cos^2 (\omega h)                                                              \\ \nonumber 
+                            & \quad + 1 - \cos^2(2\omega h) - 8\cos(\omega h) + 8\cos^3(\omega h) + 4 - 4\cos^2(\omega h)                                                    \\
+                            & = \left( c - 2\right)^2 + 16 \cos^2(\omega h) + 4 \cos^4(\omega h)                                                                             \\ \nonumber
+                            & \quad + 8 (c-2) \cos(\omega h) - 16 \cos^3(\omega h) - 4 (c- 2) \cos^2 (\omega h)                                                              \\ \nonumber 
+                            & \quad + 1 - (2\cos^2(\omega h) - 1)^2 - 8\cos(\omega h) + 8\cos^3(\omega h) + 4 - 4\cos^2(\omega h)                                            \\  
+                            & = \left( c - 2\right)^2 + 16 \cos^2(\omega h) + \cancel{4 \cos^4(\omega h)}                                                                    \\ \nonumber
+                            & \quad + 8 (c-2) \cos(\omega h) - 16 \cos^3(\omega h) - 4 (c- 2) \cos^2 (\omega h)                                                              \\ \nonumber 
+                            & \quad + 1 - \cancel{4\cos^4(\omega h)} + \cancel{4\cos^2(\omega h)} - 1 - 8\cos(\omega h) + 8\cos^3(\omega h) + 4 - \cancel{4\cos^2(\omega h)} \\                                                        
+                            & = (-16 + 8) \cos^3(\omega h) + (16 - 4(c - 2)) \cos^2(\omega h)                                                                                \\\nonumber
+                            & \quad + (8(c-2) - 8) \cos(\omega h) + ((c-2)^2 + 1 - 1 + 4)                                                                                    \\ 
+              c^2 |\hat Q|  & = - 8 \cos^3(\omega h) + (24 - 4c) \cos^2(\omega h) + (8c - 24) \cos(\omega h) + (c^2 -4c + 8)
+          \end{align}
+          
+          Thus $|\hat Q| \le 1$ if 
+          
+          \begin{align}
+              - \frac{8}{c^2} \cos^3(\omega h) + \left(\frac{24}{c^2} - \frac{4}{c}\right) \cos^2(\omega h) + \left(\frac{8}{c} - \frac{24}{c^2}\right) \cos(\omega h) + 1 - \frac{4}{c} + \frac{8}{c^2}            & \le 1                    \\
+              - \frac{8}{c^2} \cos^3(\omega h) + \left(\frac{24}{c^2} - \frac{4}{c}\right) \cos^2(\omega h) + \left(\frac{8}{c} - \frac{24}{c^2}\right) \cos(\omega h) + \left( \frac{8}{c^2}  - \frac{4}{c}\right) & \le 0                    \\
+              - 8 \cos^3(\omega h) + \left(24 - 4c\right) \cos^2(\omega h) + \left(8c - 24\right) \cos(\omega h) + \left( 8  - 4c\right)                                                                            & \le 0                    \\
+              2 \cos^3(\omega h) + \left(c - 6\right) \cos^2(\omega h) + \left(6 - 2c\right) \cos(\omega h) + \left(c - 2\right)                                                                                    & \ge 0                    \\
+              (\cos(\omega h) - 1) (2 \cos^2(\omega h) + (c-4) \cos(\omega h) + (2 - c))                                                                                                                            & \ge 0                    \\
+              (\cos(\omega h) - 1)^2 (2 \cos(\omega h) + (c - 2))                                                                                                                                                   & \ge 0                    \\
+              2 \cos(\omega h) + (c - 2)                                                                                                                                                                            & \ge 0                    \\
+              c                                                                                                                                                                                                     & \ge  2 - 2\cos(\omega h)
+          \end{align}
+          
+          In order for this to be true of all $\omega h$, then $c \ge 4$. Thus
+          
+          \begin{equation}
+              c = \frac{h^3}{k} \ge 4 \implies |\hat Q| \le 1
+          \end{equation}
+          
+          in other words:
+          
+          \begin{equation}
+              h^3 \ge 4k \implies |\hat Q| \le 1
+          \end{equation}
+          
+          }
+          
+\end{enumerate}
+
+\newpage
+\section{Problem \#3}
+
+Consider the problem
+
+\begin{alignat*}{1}
+    u_t(x,t)= & \partial_x u(x,t) \\
+    u(x,0)=   & f(x)              \\
+\end{alignat*}
+where $f$ is  $2 \pi$ periodic.
+Consider the method of lines:
+\begin{equation*}
+    v_j'(t)=\frac{1}{h} (\frac{-1}{2} v_{j+2}(t)+ 2 v_{j+1} (t)+  a v_j(t)). 
+\end{equation*}
+Therefore, the corresponding $Q= \frac{1}{h}(\frac{-1}{2} E^2+ 2 E+ a E^0)$. Can you find $a$ so that
+\begin{equation*}
+    |(Q -\partial_x)(e^{i\omega x_j})|\le O(\omega^3 h^2) ?
+\end{equation*}
+
+{\color{blue}
+
+\begin{align}
+    (Q - \partial_x)(e^{i\omega x_j}) & = Q e^{i\omega x_j} - \partial_x e^{i\omega x_j}                                                                  \\
+                                      & = \frac{-0.5 E^2 + 2E + aE^0}{h} e^{i\omega x_j} - \partial_x e^{i\omega x_j}                                     \\
+                                      & = \frac{-0.5 e^{i \omega (x_j + 2h)} + 2 e^{i \omega (x_j + h)} + ae^{i \omega x_j}}{h} - i\omega e^{i\omega x_j} \\
+\end{align}
+
+We will use
+
+\begin{align}
+    e^{i\omega (x_j + h)}  & = \sum_{k=0}^\infty \frac{(i\omega)^k e^{i\omega x_j}}{k!} h^k       \\ 
+    e^{i\omega (x_j + 2h)} & = \sum_{k=0} ^\infty \frac{(i\omega)^k e^{i\omega x_j}}{k!} 2^k h^k 
+\end{align}
+
+Thus
+
+\begin{align}
+    (Q - \partial_x)(e^{i\omega x_j}) & = \frac{-0.5 e^{i \omega (x_j + 2h)} + 2 e^{i \omega (x_j + h)} + ae^{i \omega x_j}}{h} - i\omega e^{i\omega x_j}                                                                                         \\
+                                      & = \frac{-0.5 \sum_{k=0}^\infty \frac{(i\omega)^k e^{i\omega x_j}}{k!} 2^k h^k + 2 \sum_{k=0}^\infty \frac{(i\omega)^k e^{i\omega x_j}}{k!} h^k + ae^{i \omega x_j}}{h} - i\omega e^{i\omega x_j}          \\
+                                      & = -0.5 \sum_{k=0}^\infty \frac{(i\omega)^k e^{i\omega x_j}}{k!} 2^k h^{k-1} + 2 \sum_{k=0}^\infty \frac{(i\omega)^k e^{i\omega x_j}}{k!} h^{k-1} + \frac{a}{h}e^{i \omega x_j} - i\omega e^{i\omega x_j}  \\
+                                      & = - \sum_{k=0}^\infty \frac{(i\omega)^k e^{i\omega x_j}}{k!} 2^{k-1} h^{k-1} + \sum_{k=0}^\infty \frac{(i\omega)^k e^{i\omega x_j}}{k!} 2 h^{k-1} + \frac{a}{h}e^{i \omega x_j} - i\omega e^{i\omega x_j} \\
+                                      & =  \sum_{k=0}^\infty \left( \frac{(i\omega)^k e^{i\omega x_j}}{k!} 2h^{k-1} - \frac{(i\omega)^k e^{i\omega x_j}}{k!} 2^{k-1} h^{k-1} \right) + \frac{a}{h}e^{i \omega x_j} - i\omega e^{i\omega x_j}      \\
+                                      & = e^{i\omega x_j} \left( \frac{a}{h} - i\omega + \sum_{k=0}^\infty \frac{(i\omega)^k h^{k-1}}{k!} \left(2 - 2^{k-1} \right) \right)                                                                       \\
+                                      & = \frac{e^{i\omega x_j}}{h} \left(a - i\omega h + \sum_{k=0}^\infty \frac{(i\omega)^k h^k}{k!} \left(2 - 2^{k-1} \right) \right)                                                                          \\
+                                      & = \frac{e^{i\omega x_j}}{h} \left(a - i\omega h + \frac{3}{2} + \sum_{k=1}^\infty \frac{(i\omega)^k h^k}{k!} \left(2 - 2^{k-1} \right) \right)                                                            \\
+                                      & = \frac{e^{i\omega x_j}}{h} \left(a - i\omega h + \frac{3}{2} + i\omega h + \sum_{k=2}^\infty \frac{(i\omega)^k h^k}{k!} \left(2 - 2^{k-1} \right) \right)                                                \\
+                                      & = \frac{e^{i\omega x_j}}{h} \left(a + \frac{3}{2} + \sum_{k=3}^\infty \frac{(i\omega)^k h^k}{k!} \left(2 - 2^{k-1} \right) \right)                                                                        \\
+                                      & = \frac{e^{i\omega x_j}}{h} \left(a + \frac{3}{2} + \frac{i\omega^3 h^3}{3} + \sum_{k=4}^\infty \frac{(i\omega)^k h^k}{k!} \left(2 - 2^{k-1} \right) \right)                                              \\
+    (Q - \partial_x)(e^{i\omega x_j}) & = e^{i\omega x_j} \left(\frac{a}{h} + \frac{3}{2h} + \frac{i\omega^3 h^2}{3} + \sum_{k=4}^\infty \frac{(i\omega)^k h^{k-1}}{k!} \left(2 - 2^{k-1} \right) \right)
+\end{align}
+
+Thus, if we let $a = -3/2$.
+
+\begin{align}
+    |(Q - \partial_x)(e^{i\omega x_j})| & = \left|e^{i\omega x_j} \left(\frac{a}{h} + \frac{3}{2h} + \frac{i\omega^3 h^2}{3} + \sum_{k=4}^\infty \frac{(i\omega)^k h^{k-1}}{k!} \left(2 - 2^{k-1} \right) \right) \right|                \\
+                                        & = \left|e^{i\omega x_j} \right| \left| \left(\frac{a}{h} + \frac{3}{2h} + \frac{i\omega^3 h^2}{3} + \sum_{k=4}^\infty \frac{(i\omega)^k h^{k-1}}{k!} \left(2 - 2^{k-1} \right) \right) \right| \\
+                                        & = \left| \left(\frac{a}{h} + \frac{3}{2h} + \frac{i\omega^3 h^2}{3} + \sum_{k=4}^\infty \frac{(i\omega)^k h^{k-1}}{k!} \left(2 - 2^{k-1} \right) \right) \right|                               \\
+                                        & = \left| \left(-\frac{3}{2h} + \frac{3}{2h} + \frac{i\omega^3 h^2}{3} + \sum_{k=4}^\infty \frac{(i\omega)^k h^{k-1}}{k!} \left(2 - 2^{k-1} \right) \right) \right|                             \\
+                                        & = \left| \left(\frac{i\omega^3 h^2}{3} + \sum_{k=4}^\infty \frac{(i\omega)^k h^{k-1}}{k!} \left(2 - 2^{k-1} \right) \right) \right|                                                            \\
+    |(Q - \partial_x)(e^{i\omega x_j})| & \le O(\omega^3 h^2)                                                                                                                                                                            \\
+\end{align}
+
+Thus if $a = -3/2$ then $|(Q - \partial_x)(e^{i\omega x_j})| \le O(\omega^3 h^2)$
+
+}
+
+
+\newpage
+\noindent{Problem \#4}
+
+Consider the problem
+
+\begin{alignat*}{1}
+    u_t(x,t)= & -5 \partial_x u(x,t) \\
+    u(x,0)=   & \sin(x)              \\
+\end{alignat*}
+You should be able to figure out  the exact solution. Choose $N=100$, and so $h=2 \pi/101$. Let $k=1/M$.
+
+\begin{enumerate}
+    \item What is the minum integer value for $M$ so that the Lax-Wendroff method is stable? Call this value $\bar{M}$ \\
+          
+          {\color{blue}
+          
+          The Lax-Wendroff method is usually defined by
+          
+          \begin{align}
+              v_j^{n+1} & = (I + kD_0)v_j^n + \sigma k h D_+ D_- v_j^n & j \in \mathbb Z, n \ge 0 \\
+              v_j^0     & = f_j                                        & j \in \mathbb Z
+          \end{align}
+          
+          and for this version of the problem, we have
+          
+          \begin{align}
+              v_j^{n+1} & = (I - 5kD_0)v_j^n + \sigma k h D_+ D_- v_j^n & j \in \mathbb Z, n \ge 0 \\
+              v_j^0     & = f_j                                         & j \in \mathbb Z
+          \end{align}
+          
+          Thus, for this case, 
+          
+          \begin{align}
+              v_j^{n+1}      & = (I - 5kD_0)v_j^n + \sigma k h D_+ D_- v_j^n                          \\
+              \hat v^{n + 1} & = (1 - i5\lambda \sin(\xi) - 4\sigma \lambda \sin^2(\xi / 2)) \hat v^n
+          \end{align}
+          
+          and
+          
+          \begin{equation}
+              \hat Q = 1 - i5\lambda \sin(\xi) - 4\sigma \lambda \sin^2(\xi / 2)
+          \end{equation}
+          
+          thus
+          
+          \begin{align}
+              |\hat Q|^2 & = |1 - i5\lambda \sin(\xi) - 4\sigma \lambda \sin^2(\xi / 2)|^2                                                                            \\
+                         & = 25 \lambda^2 \sin^2(\xi) + 16 \sigma^2 \lambda^2 \sin^4(\xi/2) - 8\sigma \lambda \sin^2(\xi / 2) + 1                                     \\
+                         & = 100 \lambda^2 \sin^2(\xi /2) (1 - \sin^2(\xi/2)) + 16 \sigma^2 \lambda^2 \sin^4(\xi/2) - 8\sigma \lambda \sin^2(\xi / 2) + 1             \\
+                         & = 100 \lambda^2 \sin^2(\xi /2) - 100 \lambda^2 \sin^4(\xi /2) + 16 \sigma^2 \lambda^2 \sin^4(\xi/2) - 8\sigma \lambda \sin^2(\xi / 2) + 1  \\
+                         & = (16 \sigma^2 - 100)\lambda^2 \sin^4(\xi /2) + (100 \lambda^2 - 8\sigma \lambda) \sin^2(\xi / 2) + 1                                     
+          \end{align}
+          
+          Case 1 (Lax-Wendroff): $16 \sigma^2 - 100 \le 0 \implies \sigma \le \frac{5}{2}$
+          
+          \begin{align}
+              |\hat Q| \le (100 \lambda^2 - 8\sigma \lambda) \sin^2(\xi / 2) + 1 & \le 1               \\
+              (100 \lambda^2 - 8\sigma \lambda) \sin^2(\xi / 2)                  & \le 0               \\
+              100 \lambda^2 - 8\sigma \lambda                                    & \le 0               \\
+              100 \lambda^2                                                      & \le 8\sigma \lambda \\
+              \lambda                                                            & \le 2\sigma/25      \\
+          \end{align}
+          
+          Thus, we will let $\sigma = \frac{25 \lambda}{2} = \frac{25 k}{2 h}$\\
+          
+          Since $\sigma \le \frac{5}{2}$, and $h = 2\pi / 101$ then $\frac{25 k}{2 \cdot \frac{2\pi}{101}} \le \frac{5}{2} \implies k \le \frac{2\pi}{5 \cdot 101}$.\\
+          
+          Therefore
+          
+          \begin{equation}
+              k \le \frac{2\pi}{5 \cdot 101} \implies \bar M = \left\lceil \frac{505}{2\pi} \right\rceil
+          \end{equation}
+          
+          }
+          
+    \item Run the Lax-Wendroff method with $k=1/\bar{M}$ then calculate $\|u(\cdot, 1)-v^{\bar{M}}\|_h$.
+          
+              {\color{blue}
+                  
+                  
+                  
+              }
+          
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
